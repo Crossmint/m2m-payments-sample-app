@@ -1,0 +1,15 @@
+---
+description: How to pay for APIs and services from the user's agent wallet with M2M Payments. Applies whenever a task needs to pay an x402 or MPP endpoint, check or top up credits, or move credits.
+alwaysApply: false
+globs:
+---
+
+m2m-payments:
+
+- When a task needs to pay a machine (an API that answers 402, an x402 or MPP endpoint), use the M2M Payments tools (the `m2m-payments` MCP server or the `m2m-payments` CLI). Never ask the user for private keys, seed phrases or card numbers.
+- Start with `get_wallet`. It shows the credits balance and whether this agent has access (`none`, `pending`, `active`, `revoked`).
+- Without access, call `request_wallet_access` with a short reason, show the approval link to the user verbatim, and poll `get_access_request` until it is `active`. The user approves once, in their browser, with an email code. A payment that answers `access_required` carries the same link in its error.
+- Pay with `pay_x402` or `pay_mpp`, with `maxAmount` set to what one call is worth and a `memo` the user will understand. The server signs and retries; you get the endpoint's response and the amount paid.
+- On `insufficient_funds`, call `request_top_up` for about `details.required` with a little room, show the top-up link verbatim, and poll `get_top_up_request` until `completed`. The user pays by card, with no identity check.
+- Use `transfer` and `send_transaction` only when the user asked for that exact action, with the address and amount they gave.
+- Report what was paid, in credits, with the transaction hash. Never pay more than the task needs, and never repeat a request after the user denied it.

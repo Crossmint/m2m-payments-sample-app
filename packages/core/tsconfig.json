@@ -1,0 +1,4 @@
+{
+  "extends": "@m2m-payments/tsconfig/library.json",
+  "include": ["src", "test"]
+}

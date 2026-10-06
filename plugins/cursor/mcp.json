@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "m2m-payments": {
+      "url": "https://m2m-payments.demos-crossmint.com/api/mcp"
+    }
+  }
+}

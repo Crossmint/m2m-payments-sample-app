@@ -1,0 +1,45 @@
+{
+  "name": "@m2m-payments/core",
+  "version": "0.1.0",
+  "description": "Types, the credits token and tool docs for M2M Payments, plus a server-only Crossmint wallets client with x402 and MPP payers.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@crossmint/wallets-sdk": "^1.17.0",
+    "@x402/core": "^2.27.0",
+    "@x402/evm": "^2.27.0",
+    "@x402/fetch": "^2.27.0",
+    "mppx": "^0.11.0",
+    "viem": "^2.48.0"
+  },
+  "devDependencies": {
+    "@m2m-payments/tsconfig": "workspace:*",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "vitest": "^5.0.0"
+  }
+}

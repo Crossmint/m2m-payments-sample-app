@@ -1,0 +1,18 @@
+{
+  "name": "m2m-payments",
+  "owner": {
+    "name": "Crossmint",
+    "email": "hello@crossmint.com"
+  },
+  "metadata": {
+    "description": "M2M Payments: give your agent a non-custodial wallet it can pay other machines from. x402, MPP, transfers and card top-ups with no KYC, powered by Crossmint.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "m2m-payments",
+      "source": "./plugins/claude",
+      "description": "Pay for APIs and services from the user's agent wallet with M2M Payments: x402, MPP, transfers and top-ups in credits."
+    }
+  ]
+}

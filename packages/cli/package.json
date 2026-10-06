@@ -1,0 +1,37 @@
+{
+  "name": "@m2m-payments/cli",
+  "version": "0.1.0",
+  "description": "M2M Payments CLI: give an agent a non-custodial wallet it can pay machines from. x402, MPP, transfers and transactions in credits, with the user's approval.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "m2m-payments": "./dist/bin.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@m2m-payments/auth": "workspace:*",
+    "@m2m-payments/core": "workspace:*",
+    "commander": "^15.0.0",
+    "open": "^11.0.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@m2m-payments/tsconfig": "workspace:*",
+    "@types/node": "^22",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "vitest": "^5.0.0"
+  }
+}

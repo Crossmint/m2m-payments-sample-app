@@ -1,0 +1,24 @@
+{
+  "name": "m2m-payments",
+  "displayName": "M2M Payments Wallet",
+  "version": "0.1.0",
+  "description": "Give your agent a wallet it can pay machines from. Pay x402 and MPP endpoints, transfer credits and send transactions from the user's non-custodial wallet, funded by card with no KYC. The user approves the agent once. Powered by Crossmint.",
+  "author": {
+    "name": "Crossmint",
+    "email": "hello@crossmint.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "payments",
+    "wallet",
+    "x402",
+    "mpp",
+    "credits",
+    "onramp",
+    "crossmint",
+    "mcp",
+    "agents",
+    "machine payments"
+  ],
+  "logo": "assets/logo.svg"
+}
