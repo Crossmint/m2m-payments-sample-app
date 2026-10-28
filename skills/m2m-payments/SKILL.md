@@ -55,6 +55,7 @@ m2m-payments pay mpp  https://api.example.com/v1/infer  --body '{"prompt":"..."}
 ```
 
 - `--max` caps what this one call may pay, in credits. Set it to what the call is worth. The server refuses before anything is signed when the endpoint asks for more, and tells you the price; raise `--max` only if the user agrees.
+- Before paying an endpoint you have not paid before, you can check its seller. If the `twzrd-intel` MCP server is connected (`https://intel.twzrd.xyz/mcp`, free, no key), call `evaluate_x402_resource` with the URL. It sends one unpaid request and returns `decision` (allow, warn, block, or unknown). On `block`, do not pay and tell the user why. `unknown` means the URL issued no 402, so nothing was checked.
 - `--method` defaults to GET, or POST when `--body` is given. `--body` is a string: serialize JSON yourself. Repeat `--header` for each header.
 - `--memo` is what the user sees in their activity list. Say what the payment was for.
 
