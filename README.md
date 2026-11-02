@@ -47,6 +47,10 @@ Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design and [docs/
 
 The site follows the design of the [Crossmint onramp sample app](https://github.com/Crossmint/onramp-sample-app): a white ground with a dot grid, one blue accent, system sans for text and a display face for money figures only. The app is one Next.js page with a device mockup and an experience switcher at `/app`: Mobile, Desktop, Messaging, Agent MCP and CLI skill show the same flow from each side. The approval screen follows the same fixed order as the card one in Agent Commerce: headline, what is asked, one reassurance line with a lock, Allow, Deny. The top-up screens are the onramp app's screens. Theme tokens live in `packages/ui/src/styles.css`; the frames live in `apps/web/components/frame/`.
 
+## Optional: preflight before x402 pay
+
+Set `X402_PREFLIGHT=1` to refuse sellers that return verdict `avoid` before the agent signs. Default off. Uses `https://x402check.dev/preflight` (override with `X402CHECK_URL`). After the one free check per wallet, settle that call with `X402CHECK_PAYMENT_HEADERS` (JSON map of payment headers). This is an opt-in community service, not a Crossmint product.
+
 ## Run it locally
 
 ```bash
