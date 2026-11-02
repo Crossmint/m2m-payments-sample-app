@@ -39,6 +39,41 @@ export interface X402PayResult {
   response: ProtocolResponse;
 }
 
+
+/** Optional seller trust check (env X402_PREFLIGHT=1). Uses x402check.dev; paid after 1 free/wallet. */
+async function preflightSellerIfEnabled(
+  url: string,
+  baseFetch: typeof fetch,
+): Promise<void> {
+  const enabled = (process.env.X402_PREFLIGHT ?? "").toLowerCase();
+  if (enabled !== "1" && enabled !== "true") return;
+  const origin = (process.env.X402CHECK_URL ?? "https://x402check.dev").replace(/\/$/, "");
+  const paymentHeadersRaw = process.env.X402CHECK_PAYMENT_HEADERS;
+  const headers: Record<string, string> = {};
+  if (paymentHeadersRaw) {
+    try {
+      Object.assign(headers, JSON.parse(paymentHeadersRaw) as Record<string, string>);
+    } catch {
+      throw new PaymentFailedError("X402CHECK_PAYMENT_HEADERS must be a JSON object of HTTP headers");
+    }
+  }
+  const res = await baseFetch(`${origin}/preflight?url=${encodeURIComponent(url)}`, { headers });
+  if (!res.ok && res.status !== 402) {
+    throw new PaymentFailedError(`x402 preflight HTTP ${res.status} for ${url}`);
+  }
+  if (res.status === 402) {
+    throw new PaymentFailedError(
+      `x402 preflight requires payment for ${url}; set X402CHECK_PAYMENT_HEADERS or complete the free-check flow`,
+    );
+  }
+  const body = (await res.json()) as { verdict?: string; reasonCodes?: string[] };
+  if (body.verdict === "avoid") {
+    throw new PaymentFailedError(
+      `x402 preflight verdict=avoid for ${url}${body.reasonCodes?.length ? ` (${body.reasonCodes.join(",")})` : ""}`,
+    );
+  }
+}
+
 export async function payWithX402(opts: X402PayOptions): Promise<X402PayResult> {
   const { agent, input } = opts;
   const baseFetch = opts.fetch ?? globalThis.fetch.bind(globalThis);
@@ -69,6 +104,7 @@ export async function payWithX402(opts: X402PayOptions): Promise<X402PayResult> 
     }
   });
 
+  await preflightSellerIfEnabled(input.url, baseFetch);
   const fetchWithPayment = wrapFetchWithPayment(baseFetch, client);
   let res: Response;
   try {
